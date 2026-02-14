@@ -84,7 +84,10 @@ struct ScheduleCardWithJoin: View {
 
     let title: String
     let time: String
-
+    
+    @State private var angle: Double = 0
+    @State private var isLoading = true
+    
     var body: some View {
         HStack(spacing: 12) {
 
@@ -119,6 +122,31 @@ struct ScheduleCardWithJoin: View {
                 .padding(.vertical, 8)
                 .background(Color(hex: "#30558E"))
                 .cornerRadius(20)
+            }
+            .overlay(
+                RoundedRectangle(cornerRadius: 20)
+                    .stroke(
+                        AngularGradient(
+                            gradient: Gradient(colors: [
+                                Color(hex: "#00FC5F"),
+                                Color(hex: "#FEE011"),
+                                Color(hex: "#FDD41E"),
+                                Color(hex: "#F9659E"),
+                                Color(hex: "#00FC5F")
+                            ]),
+                            center: .center,
+                            angle: .degrees(angle)
+                        ),
+                        lineWidth: 3
+                    )
+            )
+            .onAppear {
+                withAnimation(
+                    Animation.linear(duration: 2)
+                        .repeatForever(autoreverses: false)
+                ) {
+                    angle = 360
+                }
             }
         }
         .padding(16)
